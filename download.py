@@ -6,7 +6,7 @@ import paramiko
 
 
 if len(sys.argv) == 2:
-    command = 'scp -r abien@pluton.kt.agh.edu.pl:/home/gozdecki/PS_2018/' + sys.argv[1] + ' .'
+    command = 'scp -r login@server:path' + sys.argv[1] + ' .'
     os.system(command)
     sys.exit(0)
 
@@ -19,9 +19,9 @@ try:
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.WarningPolicy)
 
-    client.connect('pluton.kt.agh.edu.pl', port=22, username='abien', password='tajnehaslo')
+    client.connect('server', port=22, username='login', password='password')
 
-    stdin, stdout, stderr = client.exec_command('ls /home/gozdecki/PS_2018')
+    stdin, stdout, stderr = client.exec_command('ls path')
     download = stdout.read().split('\n')
     download.remove('')
 
@@ -29,7 +29,7 @@ try:
         if f not in files:
             nothing = False
             print('Downloading ' + str(f))
-            command = 'scp -r abien@pluton.kt.agh.edu.pl:/home/gozdecki/PS_2018/' + f + ' .'
+            command = 'scp -r login@server:path' + f + ' .'
             os.system(command)
     if(nothing):
         print("Nothing new to download")
